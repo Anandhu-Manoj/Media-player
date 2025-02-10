@@ -3,9 +3,8 @@ import { Routes,Route } from "react-router-dom";
 import Content from "./Pages/Content";
 import Home from "./Pages/Home";
 import History from "./Pages/History";
-import Header from "./Pages/Header";
-import Footer from "./Pages/Footer";
-
+import Header from "./Components/Header";
+import Footer from "./Components/Footer";
 
 
 
@@ -20,7 +19,7 @@ function App() {
 
 
       </Routes>
-      <Footer/>
+      <Footer/>           
     </>
   );
 }
