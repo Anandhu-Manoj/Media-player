@@ -1,0 +1,32 @@
+https://www.youtube.com/live/_cR5OHBdtYA?si=rXAcnnGwiYmfIv63
+
+<iframe width="560" height="315" src="https://www.youtube.com/embed/_cR5OHBdtYA?si=rXAcnnGwiYmfIv63" title="YouTube video player" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" referrerpolicy="strict-origin-when-cross-origin" allowfullscreen></iframe>
+
+https://youtu.be/MWMRFY9YZvE?si=QrAZEnI9fhzHMFuE
+
+
+<iframe width="560" height="315" src="https://www.youtube.com/embed/MWMRFY9YZvE?si=QrAZEnI9fhzHMFuE" title="YouTube video player" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" referrerpolicy="strict-origin-when-cross-origin" allowfullscreen></iframe>
+
+
+
+findings--------
+in embedded live is subtittuted with embedded 
+it is wrapped in 
+<iframe width="560" height="315" {xxxxxxxxxxxxxxxxxxxxxxxx} title="YouTube video player" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" referrerpolicy="strict-origin-when-cross-origin" allowfullscreen></iframe>
+Same Video ID: Both URLs use MWMRFY9YZvE to reference the same video.
+
+YouTube Domain: Both URLs are hosted by YouTube but structured differently for specific use cases.
+
+Query Parameters: Both contain ?si=QrAZEnI9fhzHMFuE, possibly related to session tracking.
+
+Usage Purpose: The direct URL is for standalone viewing, whereas the iframe code is used for embedding in external websites.
+
+
+ 
+ Conclusion------
+
+The primary connection between the direct YouTube URL and the embedded iframe code lies in the shared video ID, ensuring that both access the same content. While the direct URL redirects users to YouTube, the iframe method enables seamless integration within web pages, enhancing accessibility and user experience.
+
+
+
+
