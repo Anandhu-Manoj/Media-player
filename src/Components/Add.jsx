@@ -3,11 +3,12 @@ import Button from "react-bootstrap/Button";
 import Modal from "react-bootstrap/Modal";
 import FloatingLabel from "react-bootstrap/FloatingLabel";
 import Form from "react-bootstrap/Form";
+import { uploadVideo } from "../services/allApi";
 
 const Add = () => {
   const [video, setVideo] = useState({
     caption: "",
-    Image: "",
+    image: "",
     videoUrl: "",
   });
 
@@ -19,7 +20,7 @@ const Add = () => {
   const seperateYoutubeUrl = (value) => {
     if (value.includes(".be/")) {
       const videoId = value.split("be/")[1];
-      setVideo({...video,videoUrl:videoId})
+      setVideo({ ...video, videoUrl: videoId });
 
       console.log(videoId);
       setError(false);
@@ -28,17 +29,26 @@ const Add = () => {
       setError(true);
     }
   };
-  const handleSave=()=>{
-    if(video.caption&&video.image&&video.videoUrl){
-      console.log("success");
-      
-    }else{
-      alert("please fill the form")
+  const handleSave = async () => {
+    if (video.caption && video.image && video.videoUrl) {
+      try {
+        let response = await uploadVideo(video);
+
+        if (response.status >= 200 && response.status <= 300) {
+          alert("successfully added the video");
+          setShow(false);
+          setVideo({ caption: "", image: "", videoUrl: "" });
+        } else {
+          alert("Error occured contact ADMIN");
+        }
+      } catch {
+        alert("an error occured");
+      }
+    } else {
+      alert("please fill the form");
     }
+  };
 
-  }
-
-  
   return (
     <>
       <div className="">
