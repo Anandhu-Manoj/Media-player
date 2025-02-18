@@ -5,7 +5,7 @@ import FloatingLabel from "react-bootstrap/FloatingLabel";
 import Form from "react-bootstrap/Form";
 import { uploadVideo } from "../services/allApi";
 
-const Add = () => {
+const Add = ({ setVideoResp }) => {
   const [video, setVideo] = useState({
     caption: "",
     image: "",
@@ -32,8 +32,12 @@ const Add = () => {
   const handleSave = async () => {
     if (video.caption && video.image && video.videoUrl) {
       try {
+        
         let response = await uploadVideo(video);
-
+        // console.log(response.data);
+        
+        setVideoResp(response);
+        
         if (response.status >= 200 && response.status <= 300) {
           alert("successfully added the video");
           setShow(false);
@@ -41,7 +45,9 @@ const Add = () => {
         } else {
           alert("Error occured contact ADMIN");
         }
-      } catch {
+      } catch(err) {
+        console.log(err);
+        
         alert("an error occured");
       }
     } else {
