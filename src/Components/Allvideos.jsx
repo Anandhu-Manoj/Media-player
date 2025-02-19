@@ -56,6 +56,11 @@ const Allvideos = ({videoResp}) => {
     }
 
   }
+  const onVideoDrag=(e,id)=>{
+    console.log(e,id);
+    e.dataTransfer.setData("id",id)
+
+  }
   return (
 
     <>
@@ -66,7 +71,7 @@ const Allvideos = ({videoResp}) => {
         </h2>
         <div className="d-flex gap-2 flex-wrap">
           {data.map((a, index) => (
-            <Card  key={index }style={{ width: "18rem" }} >
+            <Card draggable={true} onDragStart={(e)=>onVideoDrag(e,a.id)} key={index }style={{ width: "18rem" }} >
              
               
               <Card.Img

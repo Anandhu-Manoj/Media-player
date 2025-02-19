@@ -29,3 +29,10 @@ export const createCatogary=async(catagoryDetails)=>{
 export const  getCatogory=async()=>{
   return await commonApi("get","/catogories","")
 }
+export const deleteCategory = async (id) => {
+  return await commonApi("delete", `/catogories/${id}`, {});
+};
+
+export const getSingleVideo=async(id)=>{
+  return await commonApi("get",`/videos/${id}`,"")
+}
