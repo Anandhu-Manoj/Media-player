@@ -6,6 +6,7 @@ import Catogories from "../Components/Catogories";
 
 const Home = () => {
   const [videoResponse,setVideoResponse]=useState("")
+  const [videoDeletedResponse,setvideoDeletedResponse]=useState("")
   return (
     
     <div className="container">
@@ -20,10 +21,10 @@ const Home = () => {
       </div >
       <div className="row">
       <div className="col-6">
-      <Allvideos videoResp={videoResponse} />
+      <Allvideos videoResp={videoResponse} videoDeletedResponse={videoDeletedResponse}/>
       </div>
       <div className="col-6">
-        <Catogories/>
+        <Catogories setvideoDeletedResponse={setvideoDeletedResponse} />
       </div>
       </div>
       

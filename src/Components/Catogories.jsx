@@ -5,15 +5,19 @@ import Modal from "react-bootstrap/Modal";
 import FloatingLabel from "react-bootstrap/FloatingLabel";
 import Form from "react-bootstrap/Form";
 import Allvideos from "./Allvideos";
+
 import {
   createCatogary,
   deleteCategory,
   getCatogory,
   getSingleVideo,
+  updateCatogory,
+  deleteVideo,
 } from "../services/allApi";
 import { data } from "react-router-dom";
+import { Card } from "react-bootstrap";
 
-const Catogories = () => {
+const Catogories = ({ setvideoDeletedResponse }) => {
   const [show, setShow] = useState(false);
   const [categoryName, setCategory] = useState("");
 
@@ -42,13 +46,13 @@ const Catogories = () => {
   const getNewCatogory = async () => {
     try {
       const serverResp = await getCatogory();
-      console.log(serverResp);
+      // console.log(serverResp);
       setData(serverResp.data);
     } catch (error) {
       console.log(error);
     }
   };
-  console.log(data);
+  // console.log(data);
   useEffect(() => {
     getNewCatogory();
   }, []);
@@ -65,11 +69,26 @@ const Catogories = () => {
     e.preventDefault();
   };
 
-  const dropped = async(e, data) => {
-    let vId=(e.dataTransfer.getData("videoDetails"));
-    console.log(data);
-   let response= await getSingleVideo(vId)
-   console.log(response.data)
+  const dropped = async (e, Catdata) => {
+    let vId = e.dataTransfer.getData("videoDetails");
+    // console.log(Catdata);
+
+    try {
+      let response = await getSingleVideo(vId);
+
+      if (response.status >= 200 && response.status <= 300) {
+        Catdata.Allvideos.push(response.data);
+        await updateCatogory(Catdata.id, Catdata);
+        getCatogory();
+        // console.log(vId);
+        let deleteResponce = await deleteVideo(vId);
+        setvideoDeletedResponse(deleteResponce);
+      }
+    } catch (error) {
+      console.log(error);
+    }
+
+    //  console.log(response.data)
   };
 
   return (
@@ -86,6 +105,8 @@ const Catogories = () => {
         </div>
         {data.length > 0 ? (
           data.map((val, index) => (
+            // console.log(val);
+
             <div
               onDragOver={(e) => dragOverContent(e)}
               onDrop={(e) => dropped(e, val)}
@@ -101,6 +122,34 @@ const Catogories = () => {
                 >
                   <i className="fa-solid fa-trash"></i>
                 </button>
+              </div>
+              <div className="row ">
+                {
+                  // console.log(val.Allvideos)
+                  val.Allvideos.map((a) => (
+                    // console.log(a);
+                    
+                   
+                      <div key={a.id} className="col-6 ">
+                        <Card style={{ width: "18rem" }}>
+                          <Card.Img
+                            // onClick={() => handleShow(a)}
+                            variant="top"
+                            style={{ height: "250px" }}
+                            src={a.image}
+                          />
+                          <Card.Body>
+                            <h6>{index + 1}</h6>
+                            <div className="d-flex justify-content-between">
+                              <Card.Title>{a.caption}</Card.Title>
+                            </div>
+                            <Card.Text></Card.Text>
+                          </Card.Body>
+                        </Card>
+                      </div>
+                    
+                  ))
+                }
               </div>
             </div>
           ))
