@@ -41,3 +41,6 @@ export const updateCatogory=async(id,catagoryDetails)=>{
   return await commonApi("put",`/catogories/${id}`,catagoryDetails)
 
 }
+export const getSingleCatogory=async(id)=>{
+return await commonApi("get",`/catogories/${id}`,"")
+}

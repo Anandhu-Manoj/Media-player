@@ -17,13 +17,17 @@ import {
 import { data } from "react-router-dom";
 import { Card } from "react-bootstrap";
 
-const Catogories = ({ setvideoDeletedResponse }) => {
+const Catogories = ({ setvideoDeletedResponse,categoryVideoDeletedResponse }) => {
   const [show, setShow] = useState(false);
+  const [showVideo, setShowVideo] = useState(false);
   const [categoryName, setCategory] = useState("");
 
   const handleClose = () => setShow(false);
   const handleShow = () => setShow(true);
   const [data, setData] = useState([]);
+  const [selectedVideos,setSelectedVideos]=useState(null);
+
+  const handleCloseVideo=()=>setShowVideo(false);
 
   const createNewCatogary = async () => {
     if (categoryName) {
@@ -55,7 +59,7 @@ const Catogories = ({ setvideoDeletedResponse }) => {
   // console.log(data);
   useEffect(() => {
     getNewCatogory();
-  }, []);
+  }, [categoryVideoDeletedResponse]);
   const onDeleteClick = async (id) => {
     try {
       await deleteCategory(id);
@@ -90,6 +94,21 @@ const Catogories = ({ setvideoDeletedResponse }) => {
 
     //  console.log(response.data)
   };
+  const handleShowVideo=(video)=>{
+    setSelectedVideos(video);
+    setShowVideo(true);
+  }
+  const handleCatogoryDrag=(e,categoryId,videoObj)=>{
+      console.log(`started dragging ${videoObj} in ${categoryId}`);
+
+      let dataToTransfer={
+        videoObj,categoryId
+        
+
+      }
+      e.dataTransfer.setData("fromCategoryVideo",JSON.stringify(dataToTransfer))
+
+  }
 
   return (
     <>
@@ -130,10 +149,10 @@ const Catogories = ({ setvideoDeletedResponse }) => {
                     // console.log(a);
                     
                    
-                      <div key={a.id} className="col-6 ">
+                      <div draggable={true}  onDragStart={(e)=>handleCatogoryDrag(e,val.id,a)} key={a.id} className="col-6 ">
                         <Card style={{ width: "18rem" }}>
                           <Card.Img
-                            // onClick={() => handleShow(a)}
+                            onClick={() => handleShowVideo(a)}
                             variant="top"
                             style={{ height: "250px" }}
                             src={a.image}
@@ -141,7 +160,7 @@ const Catogories = ({ setvideoDeletedResponse }) => {
                           <Card.Body>
                             <h6>{index + 1}</h6>
                             <div className="d-flex justify-content-between">
-                              <Card.Title>{a.caption}</Card.Title>
+                              <Card.Title onClick={() => handleShowVideo(a)}>{a.caption}</Card.Title>
                             </div>
                             <Card.Text></Card.Text>
                           </Card.Body>
@@ -188,6 +207,35 @@ const Catogories = ({ setvideoDeletedResponse }) => {
           </Button>
         </Modal.Footer>
       </Modal>
+
+      {selectedVideos && (
+        <Modal
+          show={showVideo}
+          onHide={handleCloseVideo}
+          animation={false}
+          size="lg"
+          centered
+        >
+          <Modal.Header closeButton>
+            <Modal.Title style={{ marginLeft: "auto" }}>
+              {selectedVideos.caption}
+            </Modal.Title>
+          </Modal.Header>
+          <Modal.Body>
+            <iframe
+              width="100%"
+              height="315"
+              src={`https://www.youtube.com/embed/${selectedVideos.videoUrl}&autoplay=1`}
+              title="YouTube video player"
+              frameBorder="0"
+              allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share"
+              referrerPolicy="strict-origin-when-cross-origin"
+              allowFullScreen
+            ></iframe>{" "}
+          </Modal.Body>
+          <Modal.Footer></Modal.Footer>
+        </Modal>
+      )}
     </>
   );
 };

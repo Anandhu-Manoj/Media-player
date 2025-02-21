@@ -2,9 +2,9 @@ import React, { useEffect, useState } from "react";
 import Modal from "react-bootstrap/Modal";
 
 import Card from "react-bootstrap/Card";
-import { addHistory, deleteVideo, getAllVideo } from "../services/allApi";
+import { addHistory, deleteVideo, getAllVideo,uploadVideo ,getSingleCatogory, updateCatogory} from "../services/allApi";
 
-const Allvideos = ({ videoResp,videoDeletedResponse }) => {
+const Allvideos = ({ videoResp,videoDeletedResponse,setcategoryVideoDeletedResponse }) => {
   const [show, setShow] = useState(false);
   const [data, setData] = useState([]);
   const [selectedVideos, setSelectedVideos] = useState(null);
@@ -56,9 +56,32 @@ const Allvideos = ({ videoResp,videoDeletedResponse }) => {
     console.log(e, id);
     e.dataTransfer.setData("videoDetails", id);
   };
-  return (
+  const onDragOverDiv=(e)=>{
+    e.preventDefault()
+  }
+  const onVideoDrop=async(e)=>{
+    let {categoryId,videoObj}=JSON.parse(e.dataTransfer.getData("fromCategoryVideo"))
+    console.log(categoryId,videoObj)
+   await uploadVideo(videoObj);
+   getVideos()
+   let apiResponse=await getSingleCatogory(categoryId)
+
+   console.log(apiResponse.data,"catagory details")
+   let currentAllVideos=apiResponse.data.Allvideos
+
+   let sortedVideos=currentAllVideos.filter((item)=>item.id!=videoObj.id)
+   
+   const payLoad={
+    id:categoryId,
+    categoryName:apiResponse.data.categoryName,
+    Allvideos:sortedVideos
+   }
+   let deletResponse=await updateCatogory(categoryId,payLoad)
+   setcategoryVideoDeletedResponse(deletResponse)
+  }
+  return ( 
     <>
-      <div>
+      <div onDragOver={(e)=>onDragOverDiv(e)} onDrop={(e)=>onVideoDrop(e)}  style={{minHeight:"300px"}}>
         {" "}
         <h2 className="" style={{ margin: "10px" }}>
           ALL Videos
