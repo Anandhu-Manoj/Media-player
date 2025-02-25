@@ -1,3 +1,3 @@
-const baseURL="http://localhost:3000"
+const baseURL="https://db-fpph.onrender.com"
 
 export default baseURL
